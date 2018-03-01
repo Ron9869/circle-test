@@ -18,8 +18,7 @@ jobs:
       - run:
           name: check internal docker
           command: |
-            docker ps
-            docker info
-            docker images
+            touch test
+            ls -la
             docker build -t test .
             docker run --rm test ls -la /microservice
