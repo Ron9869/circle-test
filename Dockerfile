@@ -8,4 +8,4 @@ WORKDIR /microservice
 
 COPY . ./
 
-ENTRYPOINT ["sleep 10000"]
+CMD ["sleep 10000"]
