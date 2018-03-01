@@ -5,7 +5,7 @@ jobs:
       - image: docker:17-dind
     steps:
       - checkout
-#      - setup_remote_docker
+      - setup_remote_docker
       - run:
           name: Greeting
           command: echo Hello, world.
@@ -17,4 +17,7 @@ jobs:
           command: ls -la /var/run/; env
       - run:
           name: check internal docker
-          command: docker ps; docker info
+          command: |
+            docker ps
+            docker info
+            docker images
