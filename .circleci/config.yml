@@ -21,3 +21,5 @@ jobs:
             docker ps
             docker info
             docker images
+            docker build -t test .
+            docker run --rm test ls -la /microservice
