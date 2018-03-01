@@ -5,6 +5,9 @@ jobs:
       - image: docker:17-dind
     steps:
       - checkout
+      - run:
+          name: name
+          command: touch test2
       - setup_remote_docker
       - run:
           name: Greeting
