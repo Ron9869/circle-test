@@ -26,7 +26,7 @@ jobs:
             - "b8:e5:6a:5f:3c:ca:6a:77:00:69:4a:f6:04:d5:c4:f7"
       - run: which ssh
       - run: ssh-add -l
-      - run: ssh -o StrictHostKeyChecking=no circleci@34.207.40.58 ls -la
+      - run: ssh -o StrictHostKeyChecking=no -o ProxyCommand="ssh -A -o StrictHostKeyChecking=no -q -W %h:%p circleci@34.207.40.58" 172.31.96.208 ls -la
 
 workflows:
   version: 2
