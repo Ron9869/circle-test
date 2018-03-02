@@ -21,6 +21,7 @@ jobs:
     docker:
       - image: docker:17-git
     steps:
+      - checkout
       - add_ssh_keys:
           fingerprints:
             - "b8:e5:6a:5f:3c:ca:6a:77:00:69:4a:f6:04:d5:c4:f7"
