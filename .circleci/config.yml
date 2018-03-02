@@ -36,9 +36,9 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build:
-          type: approval
+      - build
       - deploy-prod:
+          type: approval
           requires:
             - build
           filters:
