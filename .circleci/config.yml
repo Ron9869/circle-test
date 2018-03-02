@@ -23,7 +23,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "b7:35:a6:4e:9b:0d:6d:d4:78:1e:9a:97:2a:66:6b:be"
+            - "b8:e5:6a:5f:3c:ca:6a:77:00:69:4a:f6:04:d5:c4:f7"
       - run: which ssh
       - run: ssh-add -l
 
