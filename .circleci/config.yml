@@ -6,22 +6,23 @@ jobs:
     steps:
       - checkout
       - run:
-          name: name
-          command: touch test2
+          name: check current branch
+          command: git branch
       - setup_remote_docker
       - run:
-          name: Greeting
-          command: echo Hello, world.
-      - run:
-          name: Print the Current Time
-          command: date
-      - run:
           name: check docker
-          command: ls -la /var/run/; env
+          command: ls -la /var/run/
       - run:
-          name: check internal docker
+          name: docker build
+          command: docker build -t ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest -t ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
+      - run:
+          name: run and test
+          command: docker run --rm ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest ls -la /microservice
+      - run:
+          name: docker login
+          command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+      - run:
+          name: push image to registry
           command: |
-            touch test
-            ls -la
-            docker build -t test .
-            docker run --rm test ls -la /microservice
+            docker push ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest
+            docker push ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
