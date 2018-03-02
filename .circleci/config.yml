@@ -14,15 +14,15 @@ jobs:
           command: ls -la /var/run/
       - run:
           name: docker build
-          command: docker build -t ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest -t ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
+          command: docker build -t ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest -t ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
       - run:
           name: run and test
-          command: docker run --rm ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest ls -la /microservice
+          command: docker run --rm ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest ls -la /microservice
       - run:
           name: docker login
           command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
       - run:
           name: push image to registry
           command: |
-            docker push ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest
-            docker push ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
+            docker push ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-latest
+            docker push ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
