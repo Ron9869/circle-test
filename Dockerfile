@@ -18,7 +18,6 @@ RUN rm -r /root/.ssh/
 
 RUN mkdir /microservice
 
-
 WORKDIR /microservice
 
 COPY . ./
