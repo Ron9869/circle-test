@@ -5,19 +5,10 @@ jobs:
       - image: docker:17-git
     steps:
       - checkout
-      - run:
-          name: check current branch
-          command: git branch
       - setup_remote_docker
       - run:
-          name: check docker
-          command: ls -la /var/run/
-      - run:
           name: docker build
-          command: docker build -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-latest -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
-      - run:
-          name: run and test
-          command: docker run --rm koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-latest ls -la /microservice
+          command: docker build --build-arg SSH_KEY="${GITHUB_KEY}" -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-latest -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
       - run:
           name: docker login
           command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
