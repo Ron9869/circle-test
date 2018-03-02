@@ -21,7 +21,11 @@ jobs:
     docker:
       - image: docker:17-git
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "b7:35:a6:4e:9b:0d:6d:d4:78:1e:9a:97:2a:66:6b:be"
       - run: which ssh
+      - run: ssh-add -l
 
 workflows:
   version: 2
@@ -34,7 +38,7 @@ workflows:
             - build
           filters:
             branches:
-              only: test
+              only: test2
       - deploy-prod:
           requires:
             - hold
