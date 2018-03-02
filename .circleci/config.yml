@@ -26,3 +26,21 @@ jobs:
           command: |
             docker push koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-latest
             docker push koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
+  deploy-prod:
+    docker:
+      - image: docker:17-git
+    steps:
+      - run: which ssh
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          type: approval
+      - deploy-prod:
+          requires:
+            - build
+          filters:
+            branches:
+              only: test
