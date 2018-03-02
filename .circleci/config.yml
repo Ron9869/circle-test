@@ -37,10 +37,13 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy-prod:
+      - hold:
           type: approval
           requires:
             - build
           filters:
             branches:
               only: test
+      - deploy-prod:
+          requires:
+            - hold
