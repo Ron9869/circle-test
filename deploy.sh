@@ -31,7 +31,7 @@ ssh -T -o ProxyCommand="ssh -A -q -W %h:%p circleci@34.207.40.58" circleci@172.3
         echo "Creating service test"
         docker service create --with-registry-auth --name test1 --env TET=TEST --network=koyfin --constraint "node.labels.group!=masters" koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000
     else
-        docker service update --env-add TET=TEST2 --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} --constraint-add "node.labels.group!=masters" test1
+        docker service update --with-registry-auth --env-add TET=TEST2 --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} --constraint-add "node.labels.group!=masters" test1
     fi
 EOF
 
