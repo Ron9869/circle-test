@@ -29,7 +29,7 @@ ssh -o ProxyCommand="ssh -A -q -W %h:%p circleci@34.207.40.58" circleci@172.31.9
     if [[ -z "\${service_created}" ]]
     then
         echo "Creating service test"
-        docker service create --with-registry-auth --name test --env TET=TEST --network=koyfin --constraint "node.labels.group!=masters" koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000
+        docker service create --with-registry-auth --name test1 --env TET=TEST --network=koyfin --constraint "node.labels.group!=masters" koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000
     fi
 EOF
 
