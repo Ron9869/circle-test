@@ -12,9 +12,9 @@ RUN chmod 400 /root/.ssh/id_rsa
 
 COPY known_hosts /root/.ssh/
 
-RUN apk add --no-cache git openssh python build-base
+#RUN apk add --no-cache git openssh python build-base
 
-RUN git clone git@github.com:Koyfin/koyfin-vocabulary.git
+#RUN git clone git@github.com:Koyfin/koyfin-vocabulary.git
 
 RUN rm -r /root/.ssh/
 
