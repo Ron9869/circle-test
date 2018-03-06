@@ -14,10 +14,10 @@ EOF
 ssh -o ProxyCommand="ssh -A -q -W %h:%p circleci@34.207.40.58" circleci@172.31.96.208 <<EOF
     set -e
     docker service ls
-    network_created='$(docker network ls --filter name=koyfin --quiet)'
-    echo ${network_created}
+    network_created=\$(docker network ls --filter name=koyfin --quiet)
+    echo \${network_created}
     echo ${CIRCLE_SHA1:0:8}
-    if [[ -z "${network_created}" ]]
+    if [[ -z "\${network_created}" ]]
     then
         docker network create --driver overlay koyfin
     fi
