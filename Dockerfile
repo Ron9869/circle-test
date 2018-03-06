@@ -1,4 +1,6 @@
-FROM node:8.9.4-alpine
+FROM ubuntu:trusty
+#FROM node:8.9.4-alpine
+
 
 ARG SSH_KEY
 
