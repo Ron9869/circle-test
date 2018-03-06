@@ -16,6 +16,7 @@ ssh -o ProxyCommand="ssh -A -q -W %h:%p circleci@34.207.40.58" circleci@172.31.9
     docker service ls
     network_created='$(docker network ls --filter name=koyfind --quiet)'
     if [[ -z "${network_created}" ]]
+    then
         docker network create --driver overlay koyfin
     fi
 EOF
