@@ -2,3 +2,5 @@ Dockerfile
 .circleci
 .dockerignore
 .git
+deploy.sh
+known_hosts

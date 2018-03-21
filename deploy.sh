@@ -4,6 +4,7 @@ set -e
 
 bastion_ip="34.207.40.58"
 deploy_user="circleci"
+service_name="ciq-finantials-provider"
 swarm_master_ip="172.31.96.208"
 
 cat <<EOF >> ~/.ssh/known_hosts
@@ -11,12 +12,12 @@ cat <<EOF >> ~/.ssh/known_hosts
 172.31.96.208 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHHQdkO+/aULBMZyVpR3mk+2mU1OU9Ljf6RN/4qse3aoXqPA2ZlIpBjtwSL5mjr74bLZVJY+bWMZu+NXXeN4lSo=
 EOF
 
-ssh -T -o \
-    ProxyCommand="ssh -A -q -W %h:%p ${deploy_user}@${bastion_ip}" \
+ssh -T \
+    -o ProxyCommand="ssh -A -q -W %h:%p ${deploy_user}@${bastion_ip}" \
     ${deploy_user}@${swarm_master_ip} \
 <<EOF
     set -e
-    docker service ls
+#    docker service ls
     network_created=\$(docker network ls --filter name=koyfin --quiet)
     echo \${network_created}
     echo ${CIRCLE_SHA1:0:8}
@@ -27,14 +28,14 @@ ssh -T -o \
         docker network create --driver overlay koyfin
     fi
 
-    service_created=\$(docker service ls --filter name=test1 --quiet)
+    service_created=\$(docker service ls --filter name=${service_name} --quiet)
 
     if [[ -z "\${service_created}" ]]
     then
         echo "Creating service test"
         docker service create \
             --with-registry-auth \
-            --name test1 \
+            --name ${service_name} \
             --env TET=TEST \
             --network=koyfin \
             --constraint "node.labels.group!=masters" \
@@ -45,8 +46,6 @@ ssh -T -o \
             --env-add TET=TEST3 \
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} \
             --constraint-add "node.labels.group!=masters" \
-            test1
+            ${service_name}
     fi
 EOF
-
-#cat ~/.ssh/known_hosts
