@@ -6,6 +6,7 @@ bastion_ip="34.207.40.58"
 deploy_user="circleci"
 service_name="ciq-finantials-provider"
 swarm_master_ip="172.31.96.208"
+node_label="node.labels.group!=masters"
 
 cat <<EOF >> ~/.ssh/known_hosts
 34.207.40.58 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFLl4WK42/V1qgec1S1wNjbjeFQZ6rlsa34UYDOaHwhIVU6SNo2itzZwNf6oi4y0zBAVudJQw6g9+5GKtRlhmAE=
@@ -17,7 +18,6 @@ ssh -T \
     ${deploy_user}@${swarm_master_ip} \
 <<EOF
     set -e
-#    docker service ls
     network_created=\$(docker network ls --filter name=koyfin --quiet)
     echo \${network_created}
     echo ${CIRCLE_SHA1:0:8}
@@ -39,7 +39,7 @@ ssh -T \
             --name ${service_name}
             --env TET=TEST
             --network=koyfin
-            --constraint "node.labels.group!=masters"
+            --constraint "${node_label}"
             koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000'
         echo "\${cmd}" && eval \${cmd}
     else
@@ -48,10 +48,9 @@ ssh -T \
             --with-registry-auth
             --env-add TET=TEST3
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
-            --constraint-add "node.labels.group!=masters"
+            --constraint-add "${node_label}"
             ${service_name}'
-        #echo "\${cmd}" && 
-        eval \${cmd}
+        echo "\${cmd}" && eval \${cmd}
     fi
     echo "end"
 EOF
