@@ -50,7 +50,8 @@ ssh -T \
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
             --constraint-add "node.labels.group!=masters"
             ${service_name}'
-        echo "\${cmd}" && eval \${cmd}
+        #echo "\${cmd}" && 
+        eval \${cmd}
     fi
     echo "end"
 EOF
