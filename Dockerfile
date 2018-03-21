@@ -18,12 +18,6 @@ RUN rm -r /root/.ssh/
 
 RUN mkdir /microservice
 
-RUN addgroup -S -g 700 test && adduser -S -G test -u 700 test
-
-RUN chown -R test:test /microservice
-
-USER test:test
-
 WORKDIR /microservice
 
 COPY . ./
