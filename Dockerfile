@@ -24,7 +24,7 @@ RUN addgroup -S -g 700 test && adduser -S -G test -u 700 test
 
 RUN mkdir /test
 
-RUN chown -R koyfin:koyfin /test
+RUN chown -R test:test /test
 
 USER test:test
 
