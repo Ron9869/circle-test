@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     docker:
@@ -13,9 +14,9 @@ jobs:
           name: docker build
           command: |
             docker build \
-              --build-arg SSH_KEY="${GITHUB_KEY}" \
-              -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-latest \
-              -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
+                --build-arg SSH_KEY="${CIRCLECI_KEY}" \
+                -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-latest \
+                -t koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} .
       - run:
           name: push image to registry
           command: |
