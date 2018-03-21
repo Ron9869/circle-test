@@ -55,10 +55,8 @@ ssh -T \
             --constraint-add "${node_label}"
             ${service_name}'
         echo "\${cmd}"
-        eval \${cmd}
-        test='ls -la ${test}'
+#        eval \${cmd}
         test2='ls -la \${test}'
-        echo "\${test}"
         echo "\${test2}"
         eval \${test2}
     fi
