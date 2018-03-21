@@ -57,7 +57,7 @@ ssh -T \
         echo "\${cmd}"
         eval \${cmd}
         test='ls -la ${test}'
-        echo "\test"
+        echo "\${test}"
         eval ${test}
     fi
     echo "end"
