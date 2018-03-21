@@ -14,7 +14,7 @@ COPY known_hosts /root/.ssh/
 
 #RUN apk add --no-cache git openssh python build-base
 
-RUN apt-get-update && apt-get install git -y
+RUN apt-get update && apt-get install git -y
 
 RUN git clone git@github.com:Koyfin/koyfin-vocabulary.git
 
