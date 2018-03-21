@@ -6,7 +6,9 @@ bastion_ip="34.207.40.58"
 deploy_user="circleci"
 service_name="ciq-finantials-provider"
 swarm_master_ip="172.31.96.208"
+network_name="koyfin"
 node_label="node.labels.group!=masters"
+test="aaaa"
 
 cat <<EOF >> ~/.ssh/known_hosts
 34.207.40.58 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFLl4WK42/V1qgec1S1wNjbjeFQZ6rlsa34UYDOaHwhIVU6SNo2itzZwNf6oi4y0zBAVudJQw6g9+5GKtRlhmAE=
@@ -25,8 +27,9 @@ ssh -T \
     if [[ -z "\${network_created}" ]]
     then
         echo "Creating network koyfin"
-        cmd='docker network create --driver overlay koyfin'
-        echo "${cmd}" && eval ${cmd}
+        cmd='docker network create --driver overlay ${network_name}'
+        echo "\${cmd}"
+        eval \${cmd}
     fi
 
     service_created=\$(docker service ls --filter name=${service_name} --quiet)
@@ -38,10 +41,11 @@ ssh -T \
             --with-registry-auth
             --name ${service_name}
             --env TET=TEST
-            --network=koyfin
+            --network=${network_name}
             --constraint "${node_label}"
             koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000'
-        echo "\${cmd}" && eval \${cmd}
+        echo "\${cmd}"
+        eval \${cmd}
     else
         echo "Updating service ${service_name}"
         cmd='docker service update
@@ -50,7 +54,11 @@ ssh -T \
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
             --constraint-add "${node_label}"
             ${service_name}'
-        echo "\${cmd}" && eval \${cmd}
+        echo "\${cmd}"
+        eval \${cmd}
+        test='ls -la ${test}'
+        echo "\test"
+        eval ${test}
     fi
     echo "end"
 EOF
