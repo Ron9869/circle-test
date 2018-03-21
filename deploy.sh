@@ -1,6 +1,6 @@
 #/bin/bash
 
-set -e
+set -ex
 
 bastion_ip="34.207.40.58"
 deploy_user="circleci"
@@ -21,8 +21,8 @@ ssh -T \
 <<EOF
     set -e
     network_created=\$(docker network ls --filter name=koyfin --quiet)
-    echo \${network_created}
-    echo ${CIRCLE_SHA1:0:8}
+#    echo \${network_created}
+#    echo ${CIRCLE_SHA1:0:8}
 
     if [[ -z "\${network_created}" ]]
     then
@@ -48,17 +48,17 @@ ssh -T \
         eval \${cmd}
     else
         echo "Updating service ${service_name}"
-        cmd='docker service update
+        docker service update
             --with-registry-auth
             --env-add TET=TEST3
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
             --constraint-add "${node_label}"
-            ${service_name}'
-        echo "\${cmd}"
+            ${service_name}
+#        echo "\${cmd}"
 #        eval \${cmd}
         test2='ls -la \${test}'
-        echo "\${test2}"
-        eval \${test2}
+#        echo "\${test2}"
+#        eval \${test2}
     fi
     echo "end"
 EOF
