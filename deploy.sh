@@ -34,22 +34,22 @@ ssh -T \
     if [[ -z "\${service_created}" ]]
     then
         echo "Creating service ${service_name}"
-        cmd="docker service create
+        cmd='docker service create
             --with-registry-auth
             --name ${service_name}
             --env TET=TEST
             --network=koyfin
             --constraint "node.labels.group!=masters"
-            koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000"
+            koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000'
         echo "${cmd}" && eval ${cmd}
     else
         echo "Updating service ${service_name}"
-        cmd="docker service update
+        cmd='docker service update
             --with-registry-auth
             --env-add TET=TEST3
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
             --constraint-add "node.labels.group!=masters"
-            ${service_name}"
+            ${service_name}'
         echo "${cmd}" && eval ${cmd}
     fi
     echo "end"
