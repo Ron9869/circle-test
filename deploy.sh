@@ -60,7 +60,7 @@ ssh -T \
         test2='ls -la \${test}'
         echo "\${test}"
         echo "\${test2}"
-        eval ${test2}
+        eval \${test2}
     fi
     echo "end"
 EOF
