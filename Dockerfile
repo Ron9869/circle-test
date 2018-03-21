@@ -22,9 +22,7 @@ WORKDIR /microservice
 
 RUN addgroup -S -g 700 test && adduser -S -G test -u 700 test
 
-RUN mkdir /test
-
-RUN chown -R test:test /test
+RUN chown -R test:test /microservice
 
 USER test:test
 
