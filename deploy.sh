@@ -1,6 +1,6 @@
 #/bin/bash
 
-set -ex
+set -e
 
 bastion_ip="34.207.40.58"
 deploy_user="circleci"
@@ -19,7 +19,7 @@ ssh -T \
     -o ProxyCommand="ssh -A -q -W %h:%p ${deploy_user}@${bastion_ip}" \
     ${deploy_user}@${swarm_master_ip} \
 <<EOF
-    set -e
+    set -ex
     network_created=\$(docker network ls --filter name=koyfin --quiet)
 #    echo \${network_created}
 #    echo ${CIRCLE_SHA1:0:8}
@@ -48,11 +48,11 @@ ssh -T \
         eval \${cmd}
     else
         echo "Updating service ${service_name}"
-        docker service update
-            --with-registry-auth
-            --env-add TET=TEST3
-            --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
-            --constraint-add "${node_label}"
+        docker service update \
+            --with-registry-auth \
+            --env-add TET=TEST3 \
+            --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} \
+            --constraint-add "${node_label}" \
             ${service_name}
 #        echo "\${cmd}"
 #        eval \${cmd}
