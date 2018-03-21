@@ -44,6 +44,6 @@ workflows:
           filters:
             branches:
               only: test2
-#      - deploy-prod:
-#          requires:
-#            - hold
+      - deploy-prod:
+          requires:
+            - hold
