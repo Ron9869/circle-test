@@ -25,7 +25,8 @@ ssh -T \
     if [[ -z "\${network_created}" ]]
     then
         echo "Creating network koyfin"
-        docker network create --driver overlay koyfin
+        cmd='docker network create --driver overlay koyfin'
+        echo "${cmd}" && eval ${cmd}
     fi
 
     service_created=\$(docker service ls --filter name=${service_name} --quiet)
@@ -33,19 +34,21 @@ ssh -T \
     if [[ -z "\${service_created}" ]]
     then
         echo "Creating service test"
-        docker service create \
-            --with-registry-auth \
-            --name ${service_name} \
-            --env TET=TEST \
-            --network=koyfin \
-            --constraint "node.labels.group!=masters" \
-            koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000
+        cmd="docker service create
+            --with-registry-auth
+            --name ${service_name}
+            --env TET=TEST
+            --network=koyfin
+            --constraint "node.labels.group!=masters"
+            koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000"
+        echo "${cmd}" && eval ${cmd}
     else
-        docker service update \
-            --with-registry-auth \
-            --env-add TET=TEST3 \
-            --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} \
-            --constraint-add "node.labels.group!=masters" \
-            ${service_name}
+        cmd="docker service update
+            --with-registry-auth
+            --env-add TET=TEST3
+            --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
+            --constraint-add "node.labels.group!=masters"
+            ${service_name}"
+        echo "${cmd}" && eval ${cmd}
     fi
 EOF
