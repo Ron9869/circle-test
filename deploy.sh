@@ -33,7 +33,7 @@ ssh -T \
 
     if [[ -z "\${service_created}" ]]
     then
-        echo "Creating service test"
+        echo "Creating service ${service_name}"
         cmd="docker service create
             --with-registry-auth
             --name ${service_name}
@@ -43,6 +43,7 @@ ssh -T \
             koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000"
         echo "${cmd}" && eval ${cmd}
     else
+        echo "Updating service ${service_name}"
         cmd="docker service update
             --with-registry-auth
             --env-add TET=TEST3
@@ -51,4 +52,5 @@ ssh -T \
             ${service_name}"
         echo "${cmd}" && eval ${cmd}
     fi
+    echo "end"
 EOF
