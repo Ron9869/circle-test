@@ -41,7 +41,7 @@ ssh -T \
             --network=koyfin
             --constraint "node.labels.group!=masters"
             koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} sleep 100000'
-        echo "${cmd}" && eval ${cmd}
+        echo "\${cmd}" && eval \${cmd}
     else
         echo "Updating service ${service_name}"
         cmd='docker service update
@@ -50,7 +50,7 @@ ssh -T \
             --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8}
             --constraint-add "node.labels.group!=masters"
             ${service_name}'
-        echo "${cmd}" && eval ${cmd}
+        echo "\${cmd}" && eval \${cmd}
     fi
     echo "end"
 EOF
