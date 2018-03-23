@@ -48,5 +48,26 @@ ssh -T \
             --constraint-add "${node_label}" \
             ${service_name}
     fi
-    echo "end"
+
+    cron_service_created=\$(docker service ls --filter name=${service_name}-cron --quiet)
+    if [[ -z "\${cron_service_created}" ]]
+    then
+        echo "Creating service ${service_name}-cron"
+        docker service create \
+            --with-registry-auth \
+            --name ${service_name}-cron \
+            --env TET=TEST \
+            --network=${network_name} \
+            --constraint "${node_label}" \
+            koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} crond -f
+    else
+        echo "Updating service ${service_name}-cron"
+        docker service update \
+            --with-registry-auth \
+            --env-add TET=TEST3 \
+            --image koyfin/ciq-finantials-provider:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:8} \
+            --constraint-add "${node_label}" \
+            ${service_name}-cron
+    fi
+
 EOF

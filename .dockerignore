@@ -1,5 +1,4 @@
 Dockerfile
 .circleci
 .dockerignore
-.git
 deploy.sh
